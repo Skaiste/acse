@@ -1,4 +1,4 @@
-# BUCS (buffy the code slayer)
+# bucs (buffy the code slayer)
 
 a code search engine that matches code by it's syntax structure
 ---
