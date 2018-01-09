@@ -1,0 +1,5 @@
+#exclude everything in directory /ASTparser/target/ & /ASTparser/out/
+ASTparser/target
+ASTparser/out
+
+.DS_Store
