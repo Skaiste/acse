@@ -4,4 +4,6 @@ ASTparser/out
 
 back-end/API/target
 
+front-end/node_modules
+
 .DS_Store

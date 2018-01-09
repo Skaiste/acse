@@ -1,0 +1,17 @@
+.Searcher .container {
+  margin-top: 8vh;
+}
+
+.Searcher .input {
+  margin-bottom: 30px;
+}
+
+.Searcher textarea {
+  height: 15vh;
+}
+
+.Searcher .entry {
+  border-top: 1px solid lightgray;
+  padding-top: 10px;
+  display: flex;
+}

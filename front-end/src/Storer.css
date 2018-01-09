@@ -1,0 +1,16 @@
+.Storer .container {
+  margin-top: 20vh;
+}
+
+.Storer .CodeMirror {
+  height: 50vh;
+  border: solid 1px lightgray;
+}
+
+.hide {
+  display: none;
+}
+
+button {
+  float: right;
+}
