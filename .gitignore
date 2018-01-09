@@ -2,4 +2,6 @@
 ASTparser/target
 ASTparser/out
 
+back-end/API/target
+
 .DS_Store

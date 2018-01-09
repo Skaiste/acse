@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ASTparser">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../ASTparser.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

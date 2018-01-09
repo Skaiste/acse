@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spring-data-mongodb-1.10.8.RELEASE">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-mongodb/1.10.8.RELEASE/spring-data-mongodb-1.10.8.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
