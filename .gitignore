@@ -1,8 +1,11 @@
 #exclude everything in directory /ASTparser/target/ & /ASTparser/out/
 ASTparser/target
 ASTparser/out
+ASTparser/.idea
+ASTparser/src/main/java/META-INF
 
 back-end/API/target
+back-end/API/.idea
 
 front-end/node_modules
 

@@ -1,7 +1,6 @@
-package skaiste.API;
+package skaiste.API.models;
 
-import com.khubla.antlr4example.ASTparser;
-import com.khubla.antlr4example.SyntaxTree;
+import skaiste.ASTparser.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDateTime;
@@ -11,19 +10,19 @@ public class CodeModel{
     private String language;
     private LocalDateTime timestamp;
     @DBRef
-    private SyntaxTree code;
-    private List<String> tags;
+    private SuffixTree code;
+    //private List<String> tags;
     private String originalCode;
 
-    private int grade;
+    //private int grade;
     private MatchingResult matchingResult;
 
-    public CodeModel(String language, LocalDateTime timestamp, SyntaxTree code, String originalCode) {
-        this.language = language;
+    public CodeModel(String language, LocalDateTime timestamp, SuffixTree code, String originalCode) {
+        //this.language = language;
         this.timestamp = timestamp;
         this.originalCode = originalCode;
         this.code = code;
-        this.tags = code.getTags();
+        //this.tags = code.getTags();
     }
 
     public CodeModel(String code) {
@@ -36,43 +35,44 @@ public class CodeModel{
         // get the syntax tree & save it as code
         ASTparser parser = new ASTparser();
         try {
-            this.code = parser.parseFromStringDeep(code);
-            if (this.code != null)
-                tags = this.code.getTags();
+            this.code = parser.parseSuffixFromStringDeep(code);
+//            if (this.code != null)
+//                tags = this.code.getTags();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public boolean isCodeValid() {
-        if (code == null) return false;
-        if (code.getTags() == null || code.getTags().size() == 0) return false;
-        return !code.getTags().contains("ExternalDeclaration"); //?
+        return code != null;
+        //if (code == null) return false;
+        //if (code.getTags() == null || code.getTags().size() == 0) return false;
+        //return !code.getTags().contains("ExternalDeclaration"); //?
     }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public String getLanguage() {
-        return language;
-    }
+//    public String getLanguage() {
+//        return language;
+//    }
 
-    public SyntaxTree getCode() {
+    public SuffixTree getCode() {
         return code;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
+//    public List<String> getTags() {
+//        return tags;
+//    }
 
-    public void setGrade(int grade) {
-        this.grade = grade;
-    }
-
-    public int getGrade() {
-        return grade;
-    }
+//    public void setGrade(int grade) {
+//        this.grade = grade;
+//    }
+//
+//    public int getGrade() {
+//        return grade;
+//    }
 
     public String getOriginalCode() {
         return originalCode;

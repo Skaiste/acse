@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="ASTparser">
-    <output-path>$PROJECT_DIR$/out/artifacts/ASTparser</output-path>
-    <root id="archive" name="ASTparser.jar" />
-  </artifact>
-</component>

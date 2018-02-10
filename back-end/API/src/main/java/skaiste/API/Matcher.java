@@ -1,6 +1,8 @@
 package skaiste.API;
 
-import com.khubla.antlr4example.SyntaxTree;
+import skaiste.API.models.CodeModel;
+import skaiste.API.models.MatchingResult;
+import skaiste.ASTparser.SyntaxTree;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,8 @@ public class Matcher {
     private boolean matchtwo(CodeModel d, CodeModel q){
         MatchingResult mr = new MatchingResult(d.getOriginalCode(), q.getOriginalCode());
         d.setMatchingResult(mr);
-        return matchCodes(d.getCode(), q.getCode(), mr);
+        //return matchCodes(d.getCode(), q.getCode(), mr);
+        return true;
     }
 
     private boolean matchCodes(SyntaxTree d, SyntaxTree q, MatchingResult mr) {

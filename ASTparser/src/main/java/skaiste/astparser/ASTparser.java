@@ -15,10 +15,6 @@ public class ASTparser extends BaseErrorListener {
 
     private int mistakeCounter = 0;
 
-    public ASTparser() {
-
-    }
-
     public SyntaxTree parseFromString(String code) throws Exception
     {
         CharStream input = CharStreams.fromString(code);
@@ -31,6 +27,20 @@ public class ASTparser extends BaseErrorListener {
         ParseTree tree = parser.compilationUnit();
 
         return new SyntaxTree(tree);
+    }
+
+    public SuffixTree parseSuffixFromString(String code) throws Exception
+    {
+        CharStream input = CharStreams.fromString(code);
+
+        CLexer lexer = new CLexer(input);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        CParser parser = new CParser(tokens);
+        ParseTree tree = parser.compilationUnit();
+
+        return new SuffixTree(tree);
     }
 
     public SyntaxTree parseFromStringDeep(String code) throws Exception
@@ -73,12 +83,59 @@ public class ASTparser extends BaseErrorListener {
 
         return tree;
     }
+    public SuffixTree parseSuffixFromStringDeep(String code) throws Exception
+    {
+        CharStream input = CharStreams.fromString(code);
+
+        CLexer lexer = new CLexer(input);
+
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        CParser parser = new CParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(this);
+
+        boolean noMistakes = false;
+        SuffixTree tree = new SuffixTree(parser.compilationUnit());
+        String[] rules = parser.getRuleNames();
+        if (getMistakes() == 0 && tree.compareWithOriginal(code))
+            noMistakes = true;
+        for (int i = 0; i < rules.length && !noMistakes; i++) {
+            //System.out.println(rules[i]);
+            if (rules[i].equals("nestedParenthesesBlock")) continue;
+            // reset parser
+            parser.reset();
+            // run next rule
+            Method method = parser.getClass().getMethod(rules[i]);
+            try {
+                ParseTree parseTree = (ParseTree) method.invoke(parser);
+                tree = new SuffixTree(parseTree);
+            } catch (Exception e) { mistakeCounter++; }
+
+            // check for mistakes
+            if (getMistakes() == 0 && tree.compareWithOriginal(code))
+                noMistakes = true;
+        }
+        // check if the tree was parsed correctly
+        if (!noMistakes)
+            return null;
+
+        return tree;
+    }
 
     public static void printTreeToFile(String fileName, SyntaxTree t) throws IOException {
         FileWriter fileWriter = new FileWriter(fileName);
         PrintWriter printWriter = new PrintWriter(fileWriter);
         printWriter.print(t.toJSONstring());
         printWriter.close();
+    }
+
+    public static String[] getNodeNames() {
+        CharStream input = CharStreams.fromString("");
+        CLexer lexer = new CLexer(input);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        CParser parser = new CParser(tokens);
+        return parser.getRuleNames();
     }
 
     @Override

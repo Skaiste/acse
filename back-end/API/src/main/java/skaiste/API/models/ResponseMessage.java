@@ -1,4 +1,4 @@
-package skaiste.API;
+package skaiste.API.models;
 
 import java.util.List;
 
