@@ -4,6 +4,7 @@ import skaiste.API.fetchers.CodeFetcher;
 import skaiste.API.fetchers.ComboFetcher;
 import skaiste.API.models.Bucket;
 import skaiste.API.models.CodeModel;
+import skaiste.API.models.MatchingBlock;
 import skaiste.API.models.MatchingResult;
 import skaiste.ASTparser.SuffixTree;
 import skaiste.ASTparser.SuffixTreeNode;
@@ -170,6 +171,8 @@ public class Matcher {
             }
         }
         bucket.removeSubnodesWithinResults();
+        ArrayList<MatchingBlock> matchingBlocks = bucket.convertBucketsToMatchingBlocks(query, codeFetcher);
+        int i = 0;
         // the bucket should be filled with something
     }
 
@@ -183,7 +186,7 @@ public class Matcher {
         // check if weight matches
         if (q.getWeight() != d.getWeight()) return 0;
 
-        // check if they are end nodes
+        // check if they are end nodes TODO include filters
         if (q.getValue() != null && d.getValue() != null) {
             if (!q.getValue().equals(d.getValue())) return 1;
             return 2;

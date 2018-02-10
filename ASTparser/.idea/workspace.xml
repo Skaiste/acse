@@ -53,8 +53,8 @@
       <file leaf-file-name="SuffixTree.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/SuffixTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="79" column="30" lean-forward="true" selection-start-line="78" selection-start-column="8" selection-end-line="79" selection-end-column="30" />
+            <state relative-caret-position="92">
+              <caret line="109" column="40" lean-forward="true" selection-start-line="109" selection-start-column="40" selection-end-line="109" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#SuffixTree#0;class#SuffixTree#0" expanded="false" />
@@ -67,7 +67,7 @@
       <file leaf-file-name="SuffixTreeNode.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/SuffixTreeNode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-209">
+            <state relative-caret-position="-722">
               <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -90,7 +90,7 @@
         <entry file="file://$PROJECT_DIR$/example.c">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <caret line="11" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -401,12 +401,12 @@
       <workItem from="1516805596016" duration="262000" />
       <workItem from="1518202522667" duration="1605000" />
       <workItem from="1518204614086" duration="747000" />
-      <workItem from="1518205779525" duration="24622000" />
+      <workItem from="1518205779525" duration="26452000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30549000" />
+    <option name="totallyTimeSpent" value="32379000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="735" extended-state="1" />
@@ -574,9 +574,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/SuffixTreeNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-209">
+        <state relative-caret-position="-722">
           <caret line="14" column="21" lean-forward="false" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -596,8 +604,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/SuffixTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="79" column="30" lean-forward="true" selection-start-line="78" selection-start-column="8" selection-end-line="79" selection-end-column="30" />
+        <state relative-caret-position="92">
+          <caret line="109" column="40" lean-forward="true" selection-start-line="109" selection-start-column="40" selection-end-line="109" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#SuffixTree#0;class#SuffixTree#0" expanded="false" />
@@ -606,18 +614,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/skaiste/ASTparser/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/example.c">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="11" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>

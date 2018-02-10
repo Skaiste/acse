@@ -1,5 +1,6 @@
 package skaiste.API.models;
 
+import skaiste.API.fetchers.CodeFetcher;
 import skaiste.ASTparser.SuffixTree;
 import skaiste.ASTparser.SuffixTreeNode;
 
@@ -87,5 +88,23 @@ public class Bucket {
         if (node.getChildren().size() > 0)
             for (UUID id : node.getChildren())
                 removeFoundSubnodes(id, entries);
+    }
+
+    public ArrayList<MatchingBlock> convertBucketsToMatchingBlocks(CodeModel qmodel, CodeFetcher codeFetcher) {
+        ArrayList<MatchingBlock> matchingBlocks = new ArrayList<>();
+
+        // TODO sort buckets somehow by similarity!!!!
+
+        Iterator it = bucket.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<UUID, ArrayList<BucketEntry>> hashMapEntry = (Map.Entry<UUID, ArrayList<BucketEntry>>) it.next();
+            ArrayList<BucketEntry> entries = hashMapEntry.getValue();
+            // get code model from code fetcher
+            CodeModel dmodel = codeFetcher.getCode(hashMapEntry.getKey());
+            MatchingBlock matchingBlock = new MatchingBlock(qmodel.getOriginalCode(), dmodel.getOriginalCode(), entries, qmodel.getCode(), dmodel.getCode());
+            matchingBlocks.add(matchingBlock);
+        }
+
+        return matchingBlocks;
     }
 }
