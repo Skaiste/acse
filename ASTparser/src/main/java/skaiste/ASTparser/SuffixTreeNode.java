@@ -13,11 +13,6 @@ public class SuffixTreeNode {
     private String name;
     private String value;
     private int hash;
-
-    public void setNodeNames(ArrayList<String> nodeNames) {
-        this.nodeNames = nodeNames;
-    }
-
     private int weight;
     private ArrayList<String> nodeNames;
 
@@ -122,6 +117,11 @@ public class SuffixTreeNode {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
+    public void setNodeNames(ArrayList<String> nodeNames) {
+        this.nodeNames = nodeNames;
+    }
+
 
     private String getClass(Object o) {
         return (o.getClass().toString().split("\\$")[1]).split("Context")[0];

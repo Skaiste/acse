@@ -21,12 +21,12 @@ public class CodeModelReadMapper implements Converter<DBObject, CodeModel> {
 
     @Override
     public CodeModel convert(DBObject dbObject) {
-        String language = dbObject.containsField("language") ? (String)dbObject.get("language") : "";
+        //String language = dbObject.containsField("language") ? (String)dbObject.get("language") : "";
         LocalDateTime timestamp = dbObject.containsField("timestamp") ? convertDate((Date)dbObject.get("timestamp")) : null;
         SuffixTree code = dbObject.containsField("code") ? convertSuffixTree((DBObject)dbObject.get("code")) : null;
         String origCode = dbObject.containsField("originalcode") ? (String)dbObject.get("originalcode") : "";
 
-        return new CodeModel(language, timestamp, code, origCode);
+        return new CodeModel(timestamp, code, origCode);
     }
 
     public SuffixTree convertSuffixTree(DBObject dbObject) {
@@ -39,7 +39,7 @@ public class CodeModelReadMapper implements Converter<DBObject, CodeModel> {
             }
         }
         if (dbObject.containsField("rootNodeId")) {
-            UUID rootNodeId = UUID.fromString((String)dbObject.get("nodeName"));
+            UUID rootNodeId = (UUID)dbObject.get("rootNodeId");
             st.setRootNode(st.getNode(rootNodeId));
         }
 
@@ -47,13 +47,13 @@ public class CodeModelReadMapper implements Converter<DBObject, CodeModel> {
     }
 
     public SuffixTreeNode convertSuffixTreeNode(DBObject dbObject) {
-        UUID id = dbObject.containsField("id") ? UUID.fromString((String)dbObject.get("id")) : UUID.fromString("0");
-        UUID parent = dbObject.containsField("parent") ? UUID.fromString((String)dbObject.get("parent")) : UUID.fromString("0");
+        UUID id = dbObject.containsField("id") ? (UUID)dbObject.get("id") : UUID.fromString("0");
+        UUID parent = dbObject.containsField("parent") ? (UUID)dbObject.get("parent") : UUID.fromString("0");
         ArrayList<UUID> children = new ArrayList<>();
         if (dbObject.containsField("children")) {
             List<Object> childrenNodes = (List<Object>) dbObject.get("children");
             for (Object chld : childrenNodes) {
-                children.add(UUID.fromString((String)chld));
+                children.add((UUID)chld);
             }
         }
         String name = dbObject.containsField("name") ? (String)dbObject.get("name") : "";

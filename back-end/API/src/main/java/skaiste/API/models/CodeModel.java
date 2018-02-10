@@ -1,5 +1,6 @@
 package skaiste.API.models;
 
+import skaiste.API.services.CodeService;
 import skaiste.ASTparser.*;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class CodeModel{
-    private String language;
+    //private String language;
     private LocalDateTime timestamp;
     @DBRef
     private SuffixTree code;
@@ -17,7 +18,7 @@ public class CodeModel{
     //private int grade;
     private MatchingResult matchingResult;
 
-    public CodeModel(String language, LocalDateTime timestamp, SuffixTree code, String originalCode) {
+    public CodeModel(LocalDateTime timestamp, SuffixTree code, String originalCode) {
         //this.language = language;
         this.timestamp = timestamp;
         this.originalCode = originalCode;
@@ -29,7 +30,7 @@ public class CodeModel{
         // set original code
         originalCode = code;
         // set language
-        language = "C";
+        //language = "C";
         // set timestamp
         timestamp = LocalDateTime.now();
         // get the syntax tree & save it as code

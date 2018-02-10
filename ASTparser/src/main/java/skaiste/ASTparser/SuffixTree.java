@@ -7,16 +7,19 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import java.util.*;
 
 public class SuffixTree {
+    private UUID id;
     // have a pointer to root node and list of nodes
     SuffixTreeNode rootNode;
     Map<UUID, SuffixTreeNode> nodes;
 
     public SuffixTree (ParseTree tree) {
+        id = UUID.randomUUID();
         nodes = new HashMap<>();
         rootNode = parseTree(tree, null);
     }
 
     public SuffixTree() {
+        id = UUID.randomUUID();
         nodes = new HashMap<>();
     }
 
@@ -62,7 +65,7 @@ public class SuffixTree {
 
         Iterator it = nodes.entrySet().iterator();
         while (it.hasNext()) {
-            int hash = ((SuffixTreeNode)it.next()).getHash();
+            int hash = ((Map.Entry<UUID, SuffixTreeNode>)it.next()).getValue().getHash();
             if (!list.contains(hash))
                 list.add(hash);
         }
@@ -75,9 +78,24 @@ public class SuffixTree {
 
         Iterator it = nodes.entrySet().iterator();
         while (it.hasNext()) {
-            SuffixTreeNode tstn = ((SuffixTreeNode)it.next());
+            SuffixTreeNode tstn = ((Map.Entry<UUID, SuffixTreeNode>)it.next()).getValue();
             if (!list.contains(tstn.getHash()) && tstn.getWeight() >= weightMinimum)
                 list.add(tstn.getHash());
+        }
+
+        return list;
+    }
+
+    public HashMap<Integer, SuffixTreeNodeStub> getHashListWithStubs(int weightMinimum){
+        HashMap<Integer, SuffixTreeNodeStub> list = new HashMap<>();
+
+        Iterator it = nodes.entrySet().iterator();
+        while (it.hasNext()) {
+            SuffixTreeNode stn = ((Map.Entry<UUID, SuffixTreeNode>)it.next()).getValue();
+            if (!list.containsKey(stn.getHash()) && stn.getWeight() >= weightMinimum)
+                list.put(stn.getHash(), new SuffixTreeNodeStub(id, stn.getId()));
+            else if (list.containsKey(stn.getHash()) && stn.getWeight() >= weightMinimum)
+                list.get(stn.getHash()).addNodeId(stn.getId());
         }
 
         return list;
@@ -160,5 +178,13 @@ public class SuffixTree {
 
     public void setNodes(Map<UUID, SuffixTreeNode> nodes) {
         this.nodes = nodes;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

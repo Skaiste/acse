@@ -19,7 +19,7 @@ public class CodeModelWriteMapper implements Converter<CodeModel, DBObject> {
     @Override
     public DBObject convert(CodeModel codeModel) {
         DBObject dbObject = new BasicDBObject();
-        dbObject.put("_id", UUID.randomUUID());
+        dbObject.put("_id", codeModel.getCode().getId());
         //dbObject.put("language", codeModel.getLanguage());
         dbObject.put("timestamp", convertDate(codeModel.getTimestamp()));
         dbObject.put("code", convertCode(codeModel.getCode()));
