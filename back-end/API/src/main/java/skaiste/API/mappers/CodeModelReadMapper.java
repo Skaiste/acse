@@ -31,6 +31,7 @@ public class CodeModelReadMapper implements Converter<DBObject, CodeModel> {
 
     public SuffixTree convertSuffixTree(DBObject dbObject) {
         SuffixTree st = new SuffixTree();
+        st.setId(dbObject.containsField("id") ? (UUID)dbObject.get("id") : UUID.fromString("0"));
 
         if (dbObject.containsField("nodes")) {
             List<DBObject> nodes = (List<DBObject>) dbObject.get("nodes");

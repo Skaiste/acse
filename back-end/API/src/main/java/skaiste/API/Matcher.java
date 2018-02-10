@@ -1,11 +1,18 @@
 package skaiste.API;
 
+import skaiste.API.fetchers.CodeFetcher;
+import skaiste.API.fetchers.ComboFetcher;
+import skaiste.API.models.Bucket;
 import skaiste.API.models.CodeModel;
 import skaiste.API.models.MatchingResult;
+import skaiste.ASTparser.SuffixTree;
+import skaiste.ASTparser.SuffixTreeNode;
+import skaiste.ASTparser.SuffixTreeNodeStub;
 import skaiste.ASTparser.SyntaxTree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Matcher {
 
@@ -114,5 +121,85 @@ public class Matcher {
                 intersection.add(tag);
 
         return (ArrayList<String>)intersection;
+    }
+
+
+
+    // new implementation
+    private Bucket bucket;
+    private ArrayList<ComboFetcher> comboFetchers;
+    private CodeFetcher codeFetcher;
+
+    public Matcher(ArrayList<ComboFetcher> comboFetchers, CodeFetcher codeFetcher, CodeModel query) {
+        this.comboFetchers = comboFetchers;
+        this.codeFetcher = codeFetcher;
+        bucket = new Bucket(query.getCode());
+        this.query = query;
+    }
+
+    public void newMatching() {
+        boolean dataHasntEnded = true;
+        while (dataHasntEnded) {
+            dataHasntEnded = false;
+            for (ComboFetcher cf : comboFetchers) {
+                // check if there are some data left to go through
+                if (!cf.isThereAnyMoreLeft() && cf.getSize() == 0) continue;
+                dataHasntEnded = true;
+
+                // get query nodes
+                ArrayList<SuffixTreeNode> queryNodes = new ArrayList<>();
+                for (UUID id : cf.getOriginNodeIds())
+                    if (!bucket.isNodeAlreadyInBucket(id))
+                        queryNodes.add(query.getCode().getNode(id));
+
+                // get data nodes
+                SuffixTreeNodeStub stns = cf.pop();
+                CodeModel codeModel = codeFetcher.getCode(stns.getTreeId());
+                ArrayList<SuffixTreeNode> dataNodes = new ArrayList<>();
+                for (UUID id : stns.getNodeIds())
+                    dataNodes.add(codeModel.getCode().getNode(id));
+
+                // match nodes
+                for (SuffixTreeNode queryNode : queryNodes){
+                    for (SuffixTreeNode dataNode : dataNodes){
+                        int similarity = matchNodes(queryNode, dataNode, query.getCode(), codeModel.getCode());
+                        if (similarity > 0)
+                            bucket.addToBucket(stns.getTreeId(), queryNode.getId(), dataNode.getId(), dataNode.getWeight(), similarity);
+                    }
+                }
+            }
+        }
+        bucket.removeSubnodesWithinResults();
+        // the bucket should be filled with something
+    }
+
+    // if nodes are end nodes and their values match give 2 points for similarity
+    // if they don't match but their names match, give 1 point for similarity
+    private int matchNodes(SuffixTreeNode q, SuffixTreeNode d, SuffixTree qt, SuffixTree dt) {
+        int similarity = 0;
+
+        // check if names match
+        if (!q.getName().equals(d.getName())) return 0;
+        // check if weight matches
+        if (q.getWeight() != d.getWeight()) return 0;
+
+        // check if they are end nodes
+        if (q.getValue() != null && d.getValue() != null) {
+            if (!q.getValue().equals(d.getValue())) return 1;
+            return 2;
+        }
+
+        // check if they have children
+        if (q.getChildren().size() > 0 && d.getChildren().size() > 0) {
+            ArrayList<SuffixTreeNode> qchildren = qt.getChildNodes(q.getId());
+            ArrayList<SuffixTreeNode> dchildren = dt.getChildNodes(d.getId());
+            for (int i = 0; i < qchildren.size() && i < dchildren.size(); i++){
+                int childSimilarity = matchNodes(qchildren.get(i), dchildren.get(i), qt, dt);
+                if (childSimilarity == 0) return 0;
+                similarity += childSimilarity;
+            }
+        }
+
+        return similarity;
     }
 }

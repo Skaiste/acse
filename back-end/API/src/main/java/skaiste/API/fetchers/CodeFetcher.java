@@ -54,10 +54,10 @@ public class CodeFetcher {
     }
 
     public CodeModel getCode(UUID id) {
-        CodeModel cm = codeModels.stream().filter(x -> x.getCode().getId() == id).findFirst().get();
+        CodeModel cm = codeModels.stream().filter(x -> x.getCode().getId().equals(id)).findFirst().get();
         if (cm == null) {
             fetch(); // should be guaranteed that will get from the first fetch
-            cm = codeModels.stream().filter(x -> x.getCode().getId() == id).findFirst().get();
+            cm = codeModels.stream().filter(x -> x.getCode().getId().equals(id)).findFirst().get();
         }
         return cm;
     }
@@ -71,6 +71,6 @@ public class CodeFetcher {
     }
 
     public boolean isCodeAlreadyFetched(UUID id) {
-        return codeModels.stream().anyMatch(x -> x.getCode().getId() == id);
+        return codeModels.stream().anyMatch(x -> x.getCode().getId().equals(id));
     }
 }

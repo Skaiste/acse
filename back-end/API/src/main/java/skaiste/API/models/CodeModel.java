@@ -6,8 +6,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public class CodeModel{
+    private UUID id;
     //private String language;
     private LocalDateTime timestamp;
     @DBRef
@@ -23,6 +25,7 @@ public class CodeModel{
         this.timestamp = timestamp;
         this.originalCode = originalCode;
         this.code = code;
+        this.id = code.getId();
         //this.tags = code.getTags();
     }
 
@@ -37,6 +40,7 @@ public class CodeModel{
         ASTparser parser = new ASTparser();
         try {
             this.code = parser.parseSuffixFromStringDeep(code);
+            this.id = this.code.getId();
 //            if (this.code != null)
 //                tags = this.code.getTags();
         } catch (Exception e) {

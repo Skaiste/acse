@@ -3,6 +3,7 @@ package skaiste.API.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import skaiste.API.Matcher;
 import skaiste.API.fetchers.CodeFetcher;
 import skaiste.API.fetchers.ComboFetcher;
 import skaiste.API.models.CodeModel;
@@ -50,6 +51,7 @@ public class StorageController {
         CodeModel querymodel = new CodeModel(querycode);
         //System.out.println(querymodel.getCode());
 
+        // create combo fetchers
         Map<Integer, SuffixTreeNodeStub> hashlist = querymodel.getCode().getHashListWithStubs(2);
         ArrayList<ComboFetcher> comboFetchers = new ArrayList<>();
         Iterator it = hashlist.entrySet().iterator();
@@ -58,7 +60,12 @@ public class StorageController {
             comboFetchers.add(new ComboFetcher(comboService, entry));
         }
 
+        // create code fetcher
         CodeFetcher codeFetcher = new CodeFetcher(codeService, comboFetchers);
+
+        // create matcher & match
+        Matcher matcher = new Matcher(comboFetchers, codeFetcher,querymodel);
+        matcher.newMatching();
 
 //        if (!querymodel.isCodeValid() || querymodel.getCode().getNodes() == null) {
 //            return new ResponseMessage(false, "The code is incorrect!");

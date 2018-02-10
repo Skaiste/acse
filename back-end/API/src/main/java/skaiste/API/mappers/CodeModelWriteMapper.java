@@ -30,6 +30,7 @@ public class CodeModelWriteMapper implements Converter<CodeModel, DBObject> {
 
     private DBObject convertCode(SuffixTree st) {
         DBObject document = new BasicDBObject();
+        document.put("id", st.getId());
         document.put("rootNodeId", st.getRootNode().getId());
 
         BasicDBList nodes = new BasicDBList();

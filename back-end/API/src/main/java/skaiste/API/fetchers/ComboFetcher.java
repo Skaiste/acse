@@ -16,7 +16,7 @@ public class ComboFetcher {
     private boolean anyMoreLeft = true;
 
     private ArrayList<SuffixTreeNodeStub> combos;
-    private ArrayList<UUID> nodeIds;
+    private ArrayList<UUID> originNodeIds;
 
     private ComboService comboService;
 
@@ -32,7 +32,7 @@ public class ComboFetcher {
         this.comboService = comboService;
         hash = stubEntry.getKey();
         cursor = 0;
-        nodeIds = stubEntry.getValue().getNodeIds();
+        originNodeIds = stubEntry.getValue().getNodeIds();
         combos = new ArrayList<>();
         fetch();
     }
@@ -77,4 +77,8 @@ public class ComboFetcher {
     }
 
     public int getSize() { return combos.size(); }
+
+    public ArrayList<UUID> getOriginNodeIds() {
+        return originNodeIds;
+    }
 }
