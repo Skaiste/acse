@@ -9,8 +9,10 @@ import java.util.*;
 public class SuffixTree {
     private UUID id;
     // have a pointer to root node and list of nodes
-    SuffixTreeNode rootNode;
-    Map<UUID, SuffixTreeNode> nodes;
+    private SuffixTreeNode rootNode;
+    private Map<UUID, SuffixTreeNode> nodes;
+
+    private int counter = 0;
 
     public SuffixTree (ParseTree tree) {
         id = UUID.randomUUID();
@@ -24,6 +26,7 @@ public class SuffixTree {
     }
 
     public void addSuffixTreeNode(SuffixTreeNode stn) {
+        stn.setPosition(counter++);
         nodes.put(stn.getId(), stn);
     }
 
@@ -36,8 +39,9 @@ public class SuffixTree {
         while (pt.getChildCount() == 1) {
             pt = pt.getChild(0);
         }
-        // create node
+        // create node && set position
         SuffixTreeNode stn = new SuffixTreeNode(pt, parent);
+        stn.setPosition(counter++);
         // create array of node names for hash
         ArrayList<String> childNodeNames = new ArrayList<>();
         int weight = 0;
@@ -186,5 +190,21 @@ public class SuffixTree {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getCodeRepresentation() {
+        return getCodeRepresentationOfNode(getRootNode());
+    }
+    public String getCodeRepresentationOfNode(SuffixTreeNode stn) {
+        String s = "";
+
+        if (stn.getValue() != null) {
+            return stn.getValue();
+        }
+
+        for (SuffixTreeNode node : getChildNodes(stn.getId()))
+            s += getCodeRepresentationOfNode(node) + " ";
+
+        return s;
     }
 }

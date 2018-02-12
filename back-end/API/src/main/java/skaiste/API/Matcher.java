@@ -138,7 +138,7 @@ public class Matcher {
         this.query = query;
     }
 
-    public void newMatching() {
+    public ArrayList<MatchingBlock> newMatching() {
         boolean dataHasntEnded = true;
         while (dataHasntEnded) {
             dataHasntEnded = false;
@@ -172,8 +172,8 @@ public class Matcher {
         }
         bucket.removeSubnodesWithinResults();
         ArrayList<MatchingBlock> matchingBlocks = bucket.convertBucketsToMatchingBlocks(query, codeFetcher);
-        int i = 0;
         // the bucket should be filled with something
+        return matchingBlocks;
     }
 
     // if nodes are end nodes and their values match give 2 points for similarity

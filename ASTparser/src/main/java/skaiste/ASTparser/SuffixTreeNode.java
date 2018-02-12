@@ -14,6 +14,7 @@ public class SuffixTreeNode {
     private String value;
     private int hash;
     private int weight;
+    private int position;
     private ArrayList<String> nodeNames;
 
 
@@ -30,7 +31,7 @@ public class SuffixTreeNode {
             name = getClass(t);
     }
 
-    public SuffixTreeNode(UUID id, UUID parent, ArrayList<UUID> children, String name, String value, int hash, int weight) {
+    public SuffixTreeNode(UUID id, UUID parent, ArrayList<UUID> children, String name, String value, int hash, int weight, int position) {
         this.id = id;
         this.parent = parent;
         this.children = children;
@@ -38,6 +39,7 @@ public class SuffixTreeNode {
         this.value = value;
         this.hash = hash;
         this.weight = weight;
+        this.position = position;
     }
 
     public void addChild(UUID id) {
@@ -122,6 +124,13 @@ public class SuffixTreeNode {
         this.nodeNames = nodeNames;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     private String getClass(Object o) {
         return (o.getClass().toString().split("\\$")[1]).split("Context")[0];

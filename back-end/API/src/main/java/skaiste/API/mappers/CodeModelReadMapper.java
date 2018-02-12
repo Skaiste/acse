@@ -61,8 +61,9 @@ public class CodeModelReadMapper implements Converter<DBObject, CodeModel> {
         String value = dbObject.containsField("value") ? (String)dbObject.get("value") : null;
         int hash = dbObject.containsField("hash") ? (int)dbObject.get("hash") : 0;
         int weight = dbObject.containsField("weight") ? (int)dbObject.get("weight") : 0;
+        int position = dbObject.containsField("position") ? (int)dbObject.get("position") : 0;
 
-        return new SuffixTreeNode(id, parent, children, name, value, hash, weight);
+        return new SuffixTreeNode(id, parent, children, name, value, hash, weight, position);
     }
 
     private LocalDateTime convertDate(Date date) {

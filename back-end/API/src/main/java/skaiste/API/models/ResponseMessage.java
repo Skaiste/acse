@@ -5,7 +5,7 @@ import java.util.List;
 public class ResponseMessage {
     private String text;
     private String responseCode;
-    private MatchingResult[] matches;
+    private MatchingBlock[] matches;
 
     public ResponseMessage(boolean successful, String message) {
         text = message;
@@ -13,10 +13,10 @@ public class ResponseMessage {
         matches = null;
     }
 
-    public ResponseMessage(boolean successful, String message, List<MatchingResult> matches) {
+    public ResponseMessage(boolean successful, String message, List<MatchingBlock> matches) {
         text = message;
         responseCode = successful ? "200 OK" : "400 Error";
-        this.matches = matches.toArray(new MatchingResult[matches.size()]);
+        this.matches = matches.toArray(new MatchingBlock[matches.size()]);
     }
 
     public String getText() {
@@ -27,7 +27,7 @@ public class ResponseMessage {
         return responseCode;
     }
 
-    public MatchingResult[] getMatches() {
+    public MatchingBlock[] getMatches() {
         return matches;
     }
 }

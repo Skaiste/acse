@@ -60,6 +60,7 @@ public class CodeModelWriteMapper implements Converter<CodeModel, DBObject> {
         document.put("parent", stn.getParent());
         document.put("hash", stn.getHash());
         document.put("weight", stn.getWeight());
+        document.put("position", stn.getPosition());
 
         return document;
     }

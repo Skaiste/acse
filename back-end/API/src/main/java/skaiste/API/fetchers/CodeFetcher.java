@@ -1,5 +1,6 @@
 package skaiste.API.fetchers;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
 import skaiste.API.models.CodeModel;
 import skaiste.API.services.CodeService;
 import skaiste.ASTparser.SuffixTreeNodeStub;
@@ -36,7 +37,9 @@ public class CodeFetcher {
             moreToGo = false;
             for (ComboFetcher cf : comboFetchers) {
                 if (codeIds.size() >= amountToFetch) break;
-                UUID treeId = cf.glance(iteration).getTreeId();
+                SuffixTreeNodeStub nextStub = cf.glance(iteration);
+                if (nextStub == null) continue;
+                UUID treeId = nextStub.getTreeId();
                 // check if code is already fetched
                 if (isCodeAlreadyFetched(treeId)) continue;
                 // check if it is already in the list

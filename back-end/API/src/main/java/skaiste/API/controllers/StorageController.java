@@ -7,6 +7,7 @@ import skaiste.API.Matcher;
 import skaiste.API.fetchers.CodeFetcher;
 import skaiste.API.fetchers.ComboFetcher;
 import skaiste.API.models.CodeModel;
+import skaiste.API.models.MatchingBlock;
 import skaiste.API.models.ResponseMessage;
 import skaiste.API.services.CodeService;
 import skaiste.API.services.ComboService;
@@ -49,7 +50,9 @@ public class StorageController {
     @RequestMapping(method= RequestMethod.POST, value="/searchcode")
     public ResponseMessage searchCode(@RequestParam(value="querycode") String querycode) {
         CodeModel querymodel = new CodeModel(querycode);
-        //System.out.println(querymodel.getCode());
+        if (!querymodel.isCodeValid() || querymodel.getCode().getNodes().size() == 0) {
+            return new ResponseMessage(false, "The code is incorrect!");
+        }
 
         // create combo fetchers
         Map<Integer, SuffixTreeNodeStub> hashlist = querymodel.getCode().getHashListWithStubs(2);
@@ -65,26 +68,9 @@ public class StorageController {
 
         // create matcher & match
         Matcher matcher = new Matcher(comboFetchers, codeFetcher,querymodel);
-        matcher.newMatching();
+        ArrayList<MatchingBlock> matchingBlocks = matcher.newMatching();
 
-//        if (!querymodel.isCodeValid() || querymodel.getCode().getNodes() == null) {
-//            return new ResponseMessage(false, "The code is incorrect!");
-//        }
-//        // get data from repository that matches tags of the query
-//        List<CodeModel> list = codeRepository.findAllByTagsContaining(querymodel.getCode().getTags());
-//        //for (CodeModel c : list)
-//        //    System.out.println(c.getCode());
-//
-//        // match the data and get the result
-//        Matcher matcher = new Matcher(list, querymodel);
-//        List<MatchingResult> matchedData = matcher.matchSyntax();
-//
-//        // if no matches are found
-//        if (matchedData.size() == 0)
-//            return new ResponseMessage(false, "No matches were found!");
-//
-//        // send a successful message
-//        return new ResponseMessage(true, "The code was successfully found!", matchedData);
-        return new ResponseMessage(true, "YESY!");
+        // send a successful message
+        return new ResponseMessage(true, "The code was successfully found!", matchingBlocks);
     }
 }

@@ -93,18 +93,42 @@ public class Bucket {
     public ArrayList<MatchingBlock> convertBucketsToMatchingBlocks(CodeModel qmodel, CodeFetcher codeFetcher) {
         ArrayList<MatchingBlock> matchingBlocks = new ArrayList<>();
 
-        // TODO sort buckets somehow by similarity!!!!
-
+        // create a list that link tree ids to similarity sums
+        HashMap<Integer, UUID> sortingHat = new HashMap<>();
         Iterator it = bucket.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<UUID, ArrayList<BucketEntry>> hashMapEntry = (Map.Entry<UUID, ArrayList<BucketEntry>>) it.next();
-            ArrayList<BucketEntry> entries = hashMapEntry.getValue();
+            int similaritySum = 0;
+            for (BucketEntry be : hashMapEntry.getValue()){
+                similaritySum += be.getSimilarity();
+            }
+            sortingHat.put(similaritySum, hashMapEntry.getKey());
+        }
+
+        Iterator it1 = sortingHat.entrySet().iterator();
+        while (it1.hasNext()) {
+            UUID treeId = ((Map.Entry<Integer, UUID>) it1.next()).getValue();
+            ArrayList<BucketEntry> entries = bucket.get(treeId);
             // get code model from code fetcher
-            CodeModel dmodel = codeFetcher.getCode(hashMapEntry.getKey());
+            CodeModel dmodel = codeFetcher.getCode(treeId);
+            // sort bucket entries
+            sortBucketEntriesByPosition(entries, dmodel.getCode());
             MatchingBlock matchingBlock = new MatchingBlock(qmodel.getOriginalCode(), dmodel.getOriginalCode(), entries, qmodel.getCode(), dmodel.getCode());
             matchingBlocks.add(matchingBlock);
         }
 
         return matchingBlocks;
+    }
+
+    private ArrayList<BucketEntry> sortBucketEntriesByPosition(ArrayList<BucketEntry> bucketEntries, SuffixTree tree) {
+        bucketEntries.sort(new Comparator<BucketEntry>() {
+            @Override
+            public int compare(BucketEntry o1, BucketEntry o2) {
+                int p1 = tree.getNode(o1.getDataNode()).getPosition();
+                int p2 = tree.getNode(o2.getDataNode()).getPosition();
+                return (p1 > p2) ? 1 : (p1 < p2) ? -1 : 0;
+            }
+        });
+        return bucketEntries;
     }
 }
